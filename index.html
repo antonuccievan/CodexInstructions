@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codex + GitHub Pages Workflow</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #22d3ee;
+      --accent-2: #a78bfa;
+      --ok: #34d399;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(circle at top right, #1e293b, var(--bg) 50%);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .deck {
+      width: min(980px, 96vw);
+      min-height: min(580px, 88vh);
+      background: linear-gradient(145deg, #0b1220, #111827);
+      border: 1px solid #334155;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slide-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: clamp(24px, 4vw, 48px);
+      opacity: 0;
+      transform: translateX(32px) scale(0.98);
+      transition: all 0.45s ease;
+      display: grid;
+      gap: 16px;
+      align-content: center;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+
+    h1, h2 {
+      margin: 0;
+      line-height: 1.12;
+    }
+
+    h1 { font-size: clamp(1.8rem, 4vw, 3rem); }
+    h2 { font-size: clamp(1.4rem, 3vw, 2.2rem); color: #f8fafc; }
+
+    p, li {
+      color: var(--muted);
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .step-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: grid;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(34, 211, 238, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(34, 211, 238, 0.5);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      width: fit-content;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .highlight {
+      color: var(--ok);
+      font-weight: 600;
+    }
+
+    .url {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #e2e8f0;
+      width: fit-content;
+      word-break: break-all;
+    }
+
+    .controls {
+      border-top: 1px solid #334155;
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: rgba(2, 6, 23, 0.65);
+      backdrop-filter: blur(6px);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      border: 1px solid #334155;
+      background: #0b1220;
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    button:hover:not(:disabled) {
+      border-color: var(--accent-2);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .progress {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    .hint {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      color: #93c5fd;
+      font-size: 0.82rem;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 700px) {
+      .controls { flex-wrap: wrap; }
+      .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Codex GitHub Pages workflow presentation">
+    <span class="hint">Tip: Use ← and → keys</span>
+    <section class="slide-wrap" id="slideWrap">
+      <article class="slide active">
+        <span class="badge">Overview</span>
+        <h1>From Idea to Live Site with Codex + GitHub Pages</h1>
+        <p>This presentation walks through your exact process for creating a public repository, developing with Codex, merging via PR, and publishing to GitHub Pages.</p>
+      </article>
+
+      <article class="slide">
+        <span class="badge">Step 1</span>
+        <h2>Create a Public GitHub Repository</h2>
+        <ol class="step-list">
+          <li>Go to GitHub and create a new repository.</li>
+          <li>Set repository visibility to <span class="highlight">Public</span>.</li>
+          <li>Add a README if desired, then create the repo.</li>
+        </ol>
+      </article>
+
+      <article class="slide">
+        <span class="badge">Step 2</span>
+        <h2>Create a Codex Environment</h2>
+        <ol class="step-list">
+          <li>In Codex, open <span class="highlight">Settings → Environment</span>.</li>
+          <li>Click <span class="highlight">Create Environment</span>.</li>
+          <li>Select your new GitHub repository.</li>
+          <li>Set sharing to <span class="highlight">Only You</span> (important).</li>
+        </ol>
+      </article>
+
+      <article class="slide">
+        <span class="badge">Step 3</span>
+        <h2>Build in Codex</h2>
+        <ol class="step-list">
+          <li>Use the connected repository environment in Codex.</li>
+          <li>Ask Codex to build your project (for example, a game or website).</li>
+          <li>Iterate until Codex finishes the requested work.</li>
+        </ol>
+      </article>
+
+      <article class="slide">
+        <span class="badge">Step 4</span>
+        <h2>Create and Review PR</h2>
+        <ol class="step-list">
+          <li>Click <span class="highlight">CreatePR</span> in Codex.</li>
+          <li>Then click <span class="highlight">ViewPR</span> to open it in GitHub.</li>
+          <li>Review the code changes and checks.</li>
+        </ol>
+      </article>
+
+      <article class="slide">
+        <span class="badge">Step 5</span>
+        <h2>Merge and Publish</h2>
+        <ol class="step-list">
+          <li>Merge the pull request in GitHub.</li>
+          <li>Open repository <span class="highlight">Settings → Pages</span>.</li>
+          <li>Set source branch to <span class="highlight">main</span> and click <span class="highlight">Save</span>.</li>
+          <li>Wait for deployment, then visit your live URL.</li>
+        </ol>
+      </article>
+
+      <article class="slide">
+        <span class="badge">Live Example</span>
+        <h2>Published Site</h2>
+        <p>Your deployed website will be reachable at:</p>
+        <p class="url">https://wennechukjen.github.io/FlappyBird/</p>
+        <p>That’s the full workflow: repo → Codex environment → PR → merge → GitHub Pages.</p>
+      </article>
+    </section>
+
+    <footer class="controls">
+      <div class="buttons">
+        <button id="prevBtn" type="button" aria-label="Previous slide">← Previous</button>
+        <button id="nextBtn" type="button" aria-label="Next slide">Next →</button>
+      </div>
+      <div class="progress" id="progress">Slide 1 / 7</div>
+    </footer>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progress = document.getElementById('progress');
+    let index = 0;
+
+    function renderSlides() {
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      progress.textContent = `Slide ${index + 1} / ${slides.length}`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+    }
+
+    function goToSlide(delta) {
+      const nextIndex = index + delta;
+      if (nextIndex >= 0 && nextIndex < slides.length) {
+        index = nextIndex;
+        renderSlides();
+      }
+    }
+
+    prevBtn.addEventListener('click', () => goToSlide(-1));
+    nextBtn.addEventListener('click', () => goToSlide(1));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') goToSlide(1);
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') goToSlide(-1);
+    });
+
+    renderSlides();
+  </script>
+</body>
+</html>
